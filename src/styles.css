@@ -1,0 +1,176 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("./fonts/Montserrat-VariableFont_wght.ttf") format("ttf");
+    font-weight: 600;
+    font-style: normal;
+  }
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 100vw;
+    grid-template-rows: 10vh 90vh;
+    background-image: url("https://cdn.britannica.com/31/76031-050-162E5900/CN-Tower-rest-skyline-Toronto-world-structure.jpg");
+    background-size: cover;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    color: white;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.5) 100%);
+    z-index: -1;
+}
+
+/* Header & Navigation */
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 32px;
+}
+
+.siteTitle {
+    font-size: 32px;
+    border-bottom: 1px solid white;
+    padding: 0px 12px;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+}
+
+nav > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    padding: 3px 7px;
+    margin: 0px 5px;
+    list-style-type: none;
+}
+
+.searchContainer {
+    padding: 5px;
+}
+
+.searchBox, .searchBtn {
+    background-color: transparent;
+    outline: none;
+    border: 0;
+}
+
+.searchBox {
+    font-size: 18px;
+    padding: 0px 10px;
+    color: white;
+}
+
+.searchBtn {
+    position: relative;
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+    width: 35px;
+    height: 35px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+.navItem {
+    cursor: pointer;
+    font-size: 18px;
+    padding: 2px 10px;
+}
+
+.navItem:hover {
+    color: black;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: white;
+    margin: 0 5px;
+}
+
+/* Content */
+.content{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 65% 35%;
+}
+
+.currInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 26px;
+    font-weight: 400;
+}
+
+.currInfo > * {
+}
+
+.currInfoLeft, .currInfoRight {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    padding: 20px;
+}
+
+.cityName {
+    font-size: 46px;
+    font-weight: 500;
+}
+
+.cityDate{
+
+}
+
+.cityTime{
+    margin-bottom: 20px;
+}
+
+.cityTemp{
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.cityWeather{
+    font-size: 24px;
+}
+
+.currInfoRight {
+    font-size: 32px;
+}
+
+.rightInfoTitle {
+    font-size: 32px;
+}
+
+.rightInfoNo {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.forecastInfo {
+    border: 1px solid white;
+    margin: 0px 26px 26px 26px;
+}
