@@ -13,8 +13,8 @@ const navItems = [
 ];
 
 const tempUnitItems = [
-    { class: "celsius", text: "&#176;C" },
-    { class: "fahrenheit", text: "&#176;F" }
+    { class: "celsius", text: "°C" },
+    { class: "fahrenheit", text: "°F" }
 ];
 
 const speedUnitItems = [
@@ -30,7 +30,7 @@ function createNavItem(container, items) {
         const li = document.createElement("li");
         li.classList.add("navItem");
         li.classList.add(item.class);
-        li.innerHTML = item.text;
+        li.innerText = item.text;
 
         ul.append(li);
 
@@ -44,22 +44,38 @@ function createNavItem(container, items) {
     document.querySelector("nav").append(ul);
 }
 
-const currInfoLeftObj = [
-    { class: "cityName", text: "Toronto, Canada" },
-    { class: "cityDate", text: "Thursday, 12th Oct 23'" },
-    { class: "cityTime", text: "11:05 pm" },
-    { class: "cityTemp", text: "7 C | Feels Like 6 C" },
-    { class: "cityWeather", text: "Cloudy" },
-];
+function fetchLeftInfo() {
+    return fetch("http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=Toronto&days=1&aqi=no&alerts=no", {mode: 'cors'})
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            return [
+                { class: "cityName", text: response.location.name + ", " + response.location.country },
+                { class: "cityDate", text: "Thursday, 12th Oct 23'" },
+                { class: "cityTime", text: "11:05 pm" },
+                { class: "cityTemp", text: response.current.temp_c + "°C | " + response.current.feelslike_c + "°C" },
+                { class: "cityWeather", text: response.current.condition.text }
+            ];
+        });
+}
 
-const currInfoRightObj = [
-    { class: "rightInfoTitle", text: "Humidity" },
-    { class: "rightInfoNo", text: "78 % | High" },
-    { class: "rightInfoTitle", text: "Chance of Rain" },
-    { class: "rightInfoNo", text: "0 % | None" },
-    { class: "rightInfoTitle", text: "Wind Speed" },
-    { class: "rightInfoNo", text: "16.7 km/h | Strong" }
-];
+function fetchRightInfo() {
+    return fetch("http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=Toronto&days=1&aqi=no&alerts=no", {mode: 'cors'})
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            return [
+                { class: "rightInfoTitle", text: "Humidity" },
+                { class: "rightInfoNo", text: response.current.humidity + " % | " + "High" },
+                { class: "rightInfoTitle", text: "Chance of Rain" },
+                { class: "rightInfoNo", text: response.current.humidity + " % | " + "None" },
+                { class: "rightInfoTitle", text: "Wind Speed" },
+                { class: "rightInfoNo", text: response.current.wind_kph + " km/h | " + "Strong" }
+            ];
+        });
+}
 
 function makeInfoPanel() {
     const content = document.querySelector(".content");
@@ -70,34 +86,33 @@ function makeInfoPanel() {
     const currInfoLeft = document.createElement("section");
     currInfoLeft.classList.add("currInfoLeft");
 
-    currInfoLeftObj.forEach((item) => {
-        const textContainer = document.createElement("div");
-        textContainer.classList.add(item.class);
-        
-        if (item.class === "cityName") {
-            textContainer.textContent = item.text + " Fav";
-        } else {
-            textContainer.textContent = item.text;
-        }
-
-        currInfoLeft.append(textContainer);
-    })
+    fetchLeftInfo().then(function(result) {
+        result.forEach((item) => {
+            const textContainer = document.createElement("div");
+            textContainer.classList.add(item.class);
+    
+            if (item.class === "cityName") {
+                textContainer.textContent = item.text + " Fav";
+            } else {
+                textContainer.textContent = item.text;
+            }
+    
+            currInfoLeft.append(textContainer);
+        });
+    });    
     
     const currInfoRight = document.createElement("section");
     currInfoRight.classList.add("currInfoRight");
 
-    currInfoRightObj.forEach((item) => {
-        const textContainer = document.createElement("div");
-        textContainer.classList.add(item.class);
-        
-        if (item.class === "cityName") {
-            textContainer.textContent = item.text + " Fav";
-        } else {
+    fetchRightInfo().then(function(result) {
+        result.forEach((item) => {
+            const textContainer = document.createElement("div");
+            textContainer.classList.add(item.class);
             textContainer.textContent = item.text;
-        }
 
-        currInfoRight.append(textContainer);
-    })
+            currInfoRight.append(textContainer);
+        });
+    });    
 
     const forecastInfo = document.createElement("section");
     forecastInfo.classList.add("forecastInfo");
