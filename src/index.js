@@ -94,11 +94,15 @@ function chosenUnit() {
 
 async function searchFunction() {
     const content = document.querySelector(".content");
+    const searchCont = document.querySelector(".searchContainer");
     const searchBox = document.querySelector(".searchBox");
     const searchBtn = document.querySelector(".searchBtn");
 
     searchBtn.onclick = async function() {
         if (searchBox.value.trim()) {
+            searchCont.classList.remove("invalidSearch");
+            searchBox.placeholder = "Search";
+
             localStorage.setItem("prevCity", localStorage.getItem("city"));
             localStorage.setItem("city", searchBox.value);
 
@@ -106,6 +110,9 @@ async function searchFunction() {
             searchBox.value = "";
             await makeCurrInfo(localStorage.getItem("city"), localStorage.getItem("tempUnit"), localStorage.getItem("speedUnit"));
             await makeForecast(localStorage.getItem("city"), localStorage.getItem("tempUnit"), localStorage.getItem("forecast"));  
+        } else {
+            searchCont.classList.add("invalidSearch");
+            searchBox.placeholder = "Please enter a name";
         }
     }
 }
@@ -189,6 +196,12 @@ function fetchRequest(city) {
             return response.json();
         })
         .catch(function(error) {
+            const searchCont = document.querySelector(".searchContainer");
+            searchCont.classList.add("invalidSearch");
+
+            const searchBox = document.querySelector(".searchBox");
+            searchBox.placeholder = "Please enter a valid name";
+
             return defaultFetch();
         });
 }
@@ -214,9 +227,6 @@ function fetchLeftInfo(city, tempUnit) {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-        });
-
-        const formattedTime = localTimeDate.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
             timeZoneName: 'short'
@@ -228,12 +238,12 @@ function fetchLeftInfo(city, tempUnit) {
         if (tempUnit === "°F") {
             tempVal = response.current.temp_f;
             feelsVal = response.current.feelslike_f;
-        };
+        };  
 
-        return [
-            { class: "cityName", text: response.location.name + ", " + response.location.country },
+        return [    
             { class: "cityDate", text: formattedDate },
-            { class: "cityTime", text: formattedTime },
+            { class: "cityName", text: response.location.name + ", " + response.location.country },
+            { class: "leftDivider", text: ""},
             { class: "cityTemp", text: tempVal + tempUnit + " | Feels Like " + feelsVal + tempUnit },
             { class: "cityWeather", text: response.current.condition.text },
             { class: "weatherIcon", icon: response.current.condition.icon }
@@ -252,10 +262,13 @@ function fetchRightInfo(city, speed) {
         return [
             { class: "rightInfoTitle", text: "Humidity" },
             { class: "rightInfoNo", text: response.current.humidity + " %" },
+            { class: "rightDivider", text: ""},
             { class: "rightInfoTitle", text: "Chance of Rain" },
             { class: "rightInfoNo", text: response.forecast.forecastday[0].day.daily_will_it_rain + " %" },
+            { class: "rightDivider", text: ""},
             { class: "rightInfoTitle", text: "Chance of Snow" },
             { class: "rightInfoNo", text: response.forecast.forecastday[0].day.daily_will_it_snow + " %" },
+            { class: "rightDivider", text: ""},
             { class: "rightInfoTitle", text: "Wind Speed" },
             { class: "rightInfoNo", text: speedVal + " " + speed + "/h" }
         ];
@@ -332,9 +345,9 @@ function fetchForecastDaily(num, city, tempUnit) {
 
         return [
             { class: "forecastDate", text: formattedDate },
-            { class: "forecastMaxTemp", text: "High: " + tempValMax + tempUnit },
-            { class: "forecastMinTemp", text: "Low: " + tempValMin + tempUnit },
             { class: "weatherIconForecast", icon: forecastData.day.condition.icon },
+            { class: "forecastMaxTemp", text: tempValMax + tempUnit },
+            { class: "forecastMinTemp", text: tempValMin + tempUnit }
         ];
     });
 }
@@ -347,7 +360,13 @@ function fetchForecastHourly(num, city, tempUnit) {
 
         const localTimeDate = new Date(localTimeEpoch);
 
-        const formattedDate = localTimeDate.toLocaleTimeString('en-US', {
+        const formattedDate = localTimeDate.toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
+        });
+
+        const formattedTime = localTimeDate.toLocaleTimeString('en-US', {
             hour: 'numeric'
         });
 
@@ -359,8 +378,9 @@ function fetchForecastHourly(num, city, tempUnit) {
 
         return [
             { class: "forecastDate", text: formattedDate },
-            { class: "forecastTemp", text: "Temp: " + tempVal + tempUnit },
+            { class: "forecastTime", text: formattedTime },
             { class: "weatherIconForecast", icon: forecastData.condition.icon },
+            { class: "forecastTemp", text: tempVal + tempUnit }
         ];
     });
 }

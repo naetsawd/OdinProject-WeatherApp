@@ -1,7 +1,6 @@
 @font-face {
     font-family: "Montserrat";
     src: url("./fonts/Montserrat-VariableFont_wght.ttf") format("ttf");
-    font-weight: 600;
     font-style: normal;
   }
 
@@ -17,7 +16,6 @@ body {
     background-image: url("https://r4.wallpaperflare.com/wallpaper/500/198/463/pixel-art-digital-art-pixelated-pixels-wallpaper-b980f83df17add4b2677d8cf6091268d.jpg");
     background-size: cover;
     font-family: "Montserrat", sans-serif;
-    font-weight: 600;
     color: white;
 }
 
@@ -57,8 +55,6 @@ nav > *, .searchBox {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 25px;
     padding: 3px 7px;
     margin: 0px 5px;
     list-style-type: none;
@@ -66,6 +62,10 @@ nav > *, .searchBox {
 
 .searchContainer {
     padding: 8px;
+}
+
+.invalidSearch {
+    border: 1px solid lightcoral;
 }
 
 .searchBox, .searchBtn {
@@ -134,12 +134,15 @@ nav > *, .searchBox {
     display: flex;
     flex-direction: column;
     font-size: 32px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 25px;
     padding: 26px;
     justify-content: center;
     align-items: flex-start;
     max-width: 720px;
+}
+
+.cityDate{
+    font-size: 16px;
+    color: lightgray;
 }
 
 .cityName {
@@ -147,21 +150,18 @@ nav > *, .searchBox {
     font-weight: 500;
 }
 
-.cityDate{
-
-}
-
-.cityTime{
-    margin-bottom: 20px;
+.leftDivider {
+    margin: 16px 0px;
 }
 
 .cityTemp{
-    font-size: 32px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: 400;
 }
 
 .cityWeather{
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 300;
 }
 
 .weatherIcon {
@@ -172,21 +172,30 @@ nav > *, .searchBox {
 .currInfoRight {
     display: flex;
     flex-direction: column;
-    font-size: 32px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 25px;
     padding: 26px;
-    justify-content: center;
     align-items: flex-end;
+    justify-content: center;
 }
 
 .rightInfoTitle {
-    font-size: 32px;
+    font-size: 26px;
+    font-weight: 500;
 }
 
 .rightInfoNo {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.rightDivider {
+    margin: 10px 0px;
+}
+
+.leftDivider, .rightDivider {
+    background-color: white;
+    height: 1px;
+    width: 100%;
+    align-self: center;
 }
 
 /* Forecast Information */
@@ -198,16 +207,9 @@ nav > *, .searchBox {
     grid-template-rows: auto;
     margin-bottom: 26px;
     align-items: center;
-    justify-content: flex-start;
+    justify-items: center;
     overflow-x: scroll;
     overflow-y: hidden;
-    column-gap: 30px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 25px;
-}
-
-.forecastOpt {
-
 }
 
 .forecastCard {
@@ -215,26 +217,43 @@ nav > *, .searchBox {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 95%;
-    width: 250px;
-}
-
-.forecastCard > * {
-    margin-bottom: 10px;
+    height: 90%;
+    width: 200px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 10px;
 }
 
 .forecastDate {
-
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.forecastMaxTemp {
-    margin-bottom: 0px;
+.forecastTime {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.forecastMaxTemp, .forecastTemp {
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .forecastMinTemp {
-
+    font-size: 14px;
+    font-weight: 500;
+    color: lightgray;
 }
 
-.forecastWeather {
+.weatherIconForecast {
+    width: 75px;
+    height: 75px;
+}
 
+.currInfoLeft, .currInfoRight, .forecastSection, nav > * {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
 }
