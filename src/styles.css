@@ -117,22 +117,13 @@ nav > * {
     grid-template-rows: 65% 35%;
 }
 
+/* Current Information */
 .currInfo {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 26px;
     font-weight: 400;
-}
-
-.currInfo > * {
-}
-
-.currInfoLeft, .currInfoRight {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid white;
-    padding: 20px;
 }
 
 .cityName {
@@ -157,6 +148,11 @@ nav > * {
     font-size: 24px;
 }
 
+.weatherIcon {
+    width: 128px;
+    height: 128px;
+}
+
 .currInfoRight {
     font-size: 32px;
 }
@@ -170,7 +166,28 @@ nav > * {
     margin-bottom: 15px;
 }
 
-.forecastInfo {
+/* Forecast Information */
+.forecastSection {
+    display: flex;
+    flex-direction: row;
     border: 1px solid white;
     margin: 0px 26px 26px 26px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.forecastDate {
+
+}
+
+.forecastMaxTemp {
+
+}
+
+.forecastMinTemp {
+
+}
+
+.forecastWeather {
+
 }
