@@ -99,6 +99,7 @@ async function searchFunction() {
 
     searchBtn.onclick = async function() {
         if (searchBox.value.trim()) {
+            localStorage.setItem("prevCity", localStorage.getItem("city"));
             localStorage.setItem("city", searchBox.value);
 
             content.innerHTML = '';
@@ -180,14 +181,27 @@ async function switchSpeed() {
 }
 
 function fetchRequest(city) {
-    try {
-        return fetch("http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" + city + "&days=7&aqi=no&alerts=no", {mode: 'cors'})
+    return fetch("http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" + city + "&days=7&aqi=no&alerts=no", {mode: 'cors'})
         .then(function(response) {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
             return response.json();
         })
-    } catch(error) {
-        alert("Please enter a valid city name.")
-    }
+        .catch(function(error) {
+            return defaultFetch();
+        });
+}
+
+function defaultFetch() {
+    return fetch("http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" + localStorage.getItem("prevCity") + "&days=7&aqi=no&alerts=no", {mode: 'cors'})
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            localStorage.setItem("city", localStorage.getItem("prevCity"));
+            return response.json();
+        });
 }
 
 function fetchLeftInfo(city, tempUnit) {
@@ -265,17 +279,15 @@ function makeCurrInfo(city, tempUnit, speed) {
             const rightInfoResult = results[1];
 
             leftInfoResult.forEach((item) => {
-                const textContainer = document.createElement("div");
-                textContainer.classList.add(item.class);
-
-                const iconContainer = document.createElement("img");
-                iconContainer.classList.add(item.class);
-
                 if (item.icon) {
+                    const iconContainer = document.createElement("img");
+                    iconContainer.classList.add(item.class);
                     iconContainer.src = item.icon;
 
                     currInfoLeft.append(iconContainer);
                 } else {
+                    const textContainer = document.createElement("div");
+                    textContainer.classList.add(item.class);
                     textContainer.textContent = item.text;
 
                     currInfoLeft.append(textContainer);
@@ -300,9 +312,9 @@ function makeCurrInfo(city, tempUnit, speed) {
 
 function fetchForecastDaily(num, city, tempUnit) {
     return fetchRequest(city).then(function(response) {
-        let forecastData = response.forecast.forecastday;
+        let forecastData = response.forecast.forecastday[num];
 
-        const localTimeDate = new Date(forecastData[num].date);
+        const localTimeDate = new Date(forecastData.date);
 
         const formattedDate = localTimeDate.toLocaleDateString('en-US', {
             weekday: 'short',
@@ -310,19 +322,19 @@ function fetchForecastDaily(num, city, tempUnit) {
             day: 'numeric',
         });
 
-        let tempValMax = forecastData[num].day.maxtemp_c;
-        let tempValMin = forecastData[num].day.mintemp_c
+        let tempValMax = forecastData.day.maxtemp_c;
+        let tempValMin = forecastData.day.mintemp_c
         
         if (tempUnit === "°F") {
-            tempValMax = forecastData[num].day.maxtemp_f;
-            tempValMin = forecastData[num].day.mintemp_f;
+            tempValMax = forecastData.day.maxtemp_f;
+            tempValMin = forecastData.day.mintemp_f;
         };
 
         return [
             { class: "forecastDate", text: formattedDate },
             { class: "forecastMaxTemp", text: "High: " + tempValMax + tempUnit },
             { class: "forecastMinTemp", text: "Low: " + tempValMin + tempUnit },
-            { class: "forecastWeather", text: forecastData[num].day.condition.text },
+            { class: "weatherIconForecast", icon: forecastData.day.condition.icon },
         ];
     });
 }
@@ -336,7 +348,7 @@ function fetchForecastHourly(num, city, tempUnit) {
         const localTimeDate = new Date(localTimeEpoch);
 
         const formattedDate = localTimeDate.toLocaleTimeString('en-US', {
-            hour: '2-digit',
+            hour: 'numeric'
         });
 
         let tempVal = forecastData.temp_c;
@@ -347,8 +359,8 @@ function fetchForecastHourly(num, city, tempUnit) {
 
         return [
             { class: "forecastDate", text: formattedDate },
-            { class: "forecastMaxTemp", text: "Temp: " + tempVal + tempUnit },
-            { class: "forecastWeather", text: forecastData.condition.text },
+            { class: "forecastTemp", text: "Temp: " + tempVal + tempUnit },
+            { class: "weatherIconForecast", icon: forecastData.condition.icon },
         ];
     });
 }
@@ -383,11 +395,19 @@ function makeForecast(city, tempUnit, type) {
                 forecastCard.classList.add("forecastCard");
 
                 forecastData.forEach((item) => {
-                    const forecastItem = document.createElement("div");
-                    forecastItem.classList.add(item.class);
-                    forecastItem.textContent = item.text.replace(" possible", "");
+                    if (item.class === "weatherIconForecast") {
+                        const weatherIconForecast = document.createElement("img");
+                        weatherIconForecast.classList.add(item.class)
+                        weatherIconForecast.src = item.icon;
 
-                    forecastCard.append(forecastItem);
+                        forecastCard.append(weatherIconForecast);
+                    } else {
+                        const forecastItem = document.createElement("div");
+                        forecastItem.classList.add(item.class);
+                        forecastItem.textContent = item.text;
+
+                        forecastCard.append(forecastItem);
+                    }
                 });
 
                 forecastSection.append(forecastCard);
