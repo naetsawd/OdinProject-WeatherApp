@@ -44,13 +44,13 @@ export function fetchLeftInfo(city, tempUnit) {
 		const localTimeDate = new Date(localTimeEpoch);
 
 		const formattedDate = localTimeDate.toLocaleDateString("en-US", {
+			timeZone: response.location.tz_id,
 			weekday: "long",
 			year: "numeric",
 			month: "long",
 			day: "numeric",
 			hour: "2-digit",
 			minute: "2-digit",
-			timeZoneName: "short",
 		});
 
 		let tempVal = response.current.temp_c;
@@ -85,7 +85,7 @@ export function fetchRightInfo(city, speed) {
 		if (speed === "mi") {
 			speedVal = response.current.wind_mph;
 		}
-
+		
 		return [
 			{ class: "rightInfoTitle", text: "Humidity" },
 			{ class: "rightInfoNo", text: response.current.humidity + " %" },
@@ -115,9 +115,10 @@ export function fetchForecastDaily(num, city, tempUnit) {
 		const localTimeDate = new Date(forecastData.date);
 
 		const formattedDate = localTimeDate.toLocaleDateString("en-US", {
+			timeZone: response.location.tz_id,
 			weekday: "short",
 			month: "short",
-			day: "numeric",
+			day: "numeric"
 		});
 
 		let tempValMax = forecastData.day.maxtemp_c;
@@ -145,13 +146,15 @@ export function fetchForecastHourly(num, city, tempUnit) {
 		const localTimeDate = new Date(localTimeEpoch);
 
 		const formattedDate = localTimeDate.toLocaleDateString("en-US", {
+			timeZone: response.location.tz_id,
 			weekday: "short",
 			month: "short",
-			day: "numeric",
+			day: "numeric"
 		});
 
 		const formattedTime = localTimeDate.toLocaleTimeString("en-US", {
-			hour: "numeric",
+			timeZone: response.location.tz_id,
+			hour: "numeric"
 		});
 
 		let tempVal = forecastData.temp_c;
@@ -175,7 +178,8 @@ export function fetchCurrTime(city) {
 		const localTimeDate = new Date(localTimeEpoch);
 
 		const formattedTime = localTimeDate.toLocaleTimeString("en-US", {
-			hour: "numeric",
+			timeZone: response.location.tz_id,
+			hour: "2-digit",
 			hour12: false
 		});
 

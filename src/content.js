@@ -68,7 +68,7 @@ export function setCurrInfo() {
 
 	const currInfoLeft = document.createElement("section");
 	currInfoLeft.classList.add("currInfoLeft");
-
+	
 	return Promise.all([
 		fetchLeftInfo(city, tempUnit),
 		fetchRightInfo(city, speed),
