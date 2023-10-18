@@ -1,6 +1,6 @@
 export function fetchRequest(city) {
 	return fetch(
-		"http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" +
+		"https://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" +
 			city +
 			"&days=7&aqi=no&alerts=no",
 		{ mode: "cors" }
@@ -23,7 +23,7 @@ export function fetchRequest(city) {
 
 export function defaultFetch() {
 	return fetch(
-		"http://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" +
+		"https://api.weatherapi.com/v1/forecast.json?key=14f6e670b9ca46fcaf2203655231110&q=" +
 			localStorage.getItem("prevCity") +
 			"&days=7&aqi=no&alerts=no",
 		{ mode: "cors" }
