@@ -13,7 +13,7 @@ body {
     display: grid;
     grid-template-columns: 100vw;
     grid-template-rows: 10vh 90vh;
-    background-image: url("https://r4.wallpaperflare.com/wallpaper/500/198/463/pixel-art-digital-art-pixelated-pixels-wallpaper-b980f83df17add4b2677d8cf6091268d.jpg");
+    /* background-image: url("https://r4.wallpaperflare.com/wallpaper/500/198/463/pixel-art-digital-art-pixelated-pixels-wallpaper-b980f83df17add4b2677d8cf6091268d.jpg"); */
     background-size: cover;
     font-family: "Montserrat", sans-serif;
     color: white;

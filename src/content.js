@@ -3,7 +3,33 @@ import {
 	fetchRightInfo,
 	fetchForecastDaily,
 	fetchForecastHourly,
+	fetchCurrTime
 } from "./fetches";
+
+import morning from "./images/morning.png"
+import afternoon from "./images/afternoon.jpg"
+import evening from "./images/evening.jpg"
+import night from "./images/night.jpg"
+
+function setBackground(city) {
+	fetchCurrTime(city)
+	  .then(time => {
+		let backgroundImageUrl;
+
+		if (time >= 5 && time < 12) {
+		  backgroundImageUrl = morning;
+		} else if (time >= 12 && time < 17) {
+		  backgroundImageUrl = afternoon;
+		} else if (time >= 17 && time < 20) {
+		  backgroundImageUrl = evening;
+		} else {
+		  backgroundImageUrl = night;
+		}
+  
+		document.body.style.backgroundImage = `url(${backgroundImageUrl})`;
+	  });
+  }
+  
 
 export function createNavItem(container, items) {
 	const ul = document.createElement("ul");
@@ -31,6 +57,8 @@ export function setCurrInfo() {
     let city = localStorage.getItem("city");
     let tempUnit = localStorage.getItem("tempUnit");
     let speed = localStorage.getItem("speedUnit");
+
+	setBackground(city);
 
 	const content = document.querySelector(".content");
 

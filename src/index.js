@@ -3,13 +3,14 @@ import "./styles.css";
 import { 
     createNavItem, 
     setCurrInfo, 
-    setForecast } from "./content";
+    setForecast 
+} from "./content";
 import {
 	searchFunction,
 	chosenUnit,
 	switchForecast,
 	switchTemp,
-	switchSpeed,
+	switchSpeed
 } from "./functions";
 
 import siteLogo from "./images/siteLogo.png";

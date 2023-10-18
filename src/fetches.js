@@ -168,3 +168,17 @@ export function fetchForecastHourly(num, city, tempUnit) {
 		];
 	});
 }
+
+export function fetchCurrTime(city) {
+	return fetchRequest(city).then(function (response) {
+		const localTimeEpoch = response.location.localtime_epoch * 1000;
+		const localTimeDate = new Date(localTimeEpoch);
+
+		const formattedTime = localTimeDate.toLocaleTimeString("en-US", {
+			hour: "numeric",
+			hour12: false
+		});
+
+		return formattedTime;
+	});
+}
