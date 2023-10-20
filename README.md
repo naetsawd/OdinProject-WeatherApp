@@ -1,4 +1,4 @@
-# &#0172;Unorganized : OdinProject Weather App
+# Tempest : OdinProject Weather App
 
 **Note:** The website is not mobile responsive.
 
