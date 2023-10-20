@@ -3,7 +3,8 @@ import "./styles.css";
 import { 
     createNavItem, 
     setCurrInfo, 
-    setForecast 
+    setForecast,
+	createFooter 
 } from "./content";
 import {
 	searchFunction,
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         createNavItem("speedUnit", speedUnitItems);
         setCurrInfo();
         setForecast();
+		createFooter();
         searchFunction();
         switchForecast();
         switchTemp();

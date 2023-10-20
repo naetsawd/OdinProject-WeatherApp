@@ -10,6 +10,7 @@ import morning from "./images/morning.png"
 import afternoon from "./images/afternoon.jpg"
 import evening from "./images/evening.jpg"
 import night from "./images/night.jpg"
+import githubLogo from "./images/githubLogo.svg";
 
 function setBackground(city) {
 	fetchCurrTime(city)
@@ -161,4 +162,26 @@ export function setForecast() {
 
 		content.append(forecastSection);
 	});
+}
+
+export function createFooter() {
+    const footer = document.querySelector("footer");
+    footer.classList.add("footer");
+
+    const footerText = document.createElement("p");
+    footerText.classList.add("footerText");
+    footerText.textContent = "Designed & Built by Dechsit Naetsawan";
+
+    const link = document.createElement("a");
+    link.href = "https://github.com/naetsawd/OdinProject-WeatherApp";
+    link.target = "_blank";
+
+    const icon = document.createElement("img");
+    icon.classList.add("githubIcon");
+    icon.src = (githubLogo);
+
+    link.appendChild(icon);
+
+    footer.appendChild(link);
+    footer.appendChild(footerText);
 }
