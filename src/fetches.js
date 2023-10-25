@@ -112,6 +112,15 @@ export function fetchForecastDaily(num, city, tempUnit) {
 	return fetchRequest(city).then(function (response) {
 		let forecastData = response.forecast.forecastday[num];
 
+		if (!forecastData) {
+			return [
+				{ class: "forecastDate", text: "WeathAPI" },
+				{ class: "forecastMaxTemp", text: "Trial Ended" },
+				{ class: "forecastMaxTemp", text: "Information" },
+				{ class: "forecastMinTemp", text: "Not Available" },
+			];
+		}
+
 		const localTimeDate = new Date(forecastData.date);
 
 		const formattedDate = localTimeDate.toLocaleDateString("en-US", {

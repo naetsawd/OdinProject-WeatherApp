@@ -133,6 +133,7 @@ nav > *,
 	grid-template-columns: 90%;
 	grid-template-rows: 65% 35%;
 	justify-content: center;
+	grid-template-areas: "curr" "forecast";
 }
 
 /* Current Information */
@@ -142,6 +143,7 @@ nav > *,
 	justify-content: space-between;
 	padding: 26px 0px;
 	font-weight: 400;
+	grid-area: curr;
 }
 
 .currInfoLeft {
@@ -225,6 +227,7 @@ nav > *,
 	justify-items: center;
 	overflow-x: scroll;
 	overflow-y: hidden;
+	grid-area: forecast;
 }
 
 .forecastCard {
